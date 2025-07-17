@@ -2,6 +2,8 @@
 
 namespace App\Service;
 
+use App\Dto\Event;
+
 class CsvReader
 {
     public function __construct(
@@ -19,19 +21,20 @@ class CsvReader
         $file = fopen($this->filePath, 'r');
 
         while (($line = fgetcsv($file)) !== false) {
-            $events[] = [
-                'event_name'=> $line[0],
-                'location' => $line[1],
-                'address' => [
-                    'latitude' => (float) $line[2],
-                    'longitude' => (float) $line[3],
-                ]
-            ];
+            if (count($line) < 4) {
+                continue; // Skip malformed rows
+            }
+
+             $events[] = new Event(
+                name: $line[0],
+                location: $line[1],
+                address_latitude: (float) $line[2],
+                address_longitude: (float) $line[3]
+            );
         }
 
         fclose($file);
 
         return $events;
     }
-
 }
