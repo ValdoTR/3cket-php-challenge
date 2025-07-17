@@ -2,9 +2,9 @@
 
 namespace App\Controller;
 
-use Symfony\Component\HttpFoundation\Response;
-use App\Service\CsvReader;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
+use App\Service\CsvReader;
 
 class EventController
 {
@@ -16,16 +16,19 @@ class EventController
         $this->reader = $reader;
     }
 
-    #[Route('/events')]
-    public function events(): Response
+    #[Route('/events', name: 'event_list', methods: ['GET'])]
+    public function list(): JsonResponse
     {
         $events = $this->reader->readEvents();
-        $id = 1;
 
-        return new Response(
-            json_encode($events[$id] ?? null),
-            200,
-            ['Content-Type' => 'application/json']
-        );
+        return new JsonResponse($events);
+    }
+
+    #[Route('/events/{id}', name: 'event_show', requirements: ['id' => '\d+'], methods: ['GET'])]
+    public function show(int $id): JsonResponse
+    {
+        $events = $this->reader->readEvents();
+
+        return new JsonResponse($events[$id - 1]);
     }
 }
