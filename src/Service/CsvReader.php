@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Dto\Address;
 use App\Dto\Event;
 
 class CsvReader
@@ -21,15 +22,21 @@ class CsvReader
         $file = fopen($this->filePath, 'r');
 
         while (($line = fgetcsv($file)) !== false) {
+            $line = array_map('trim', $line); // remove extra spaces
+
             if (count($line) < 4) {
                 continue; // Skip malformed rows
             }
 
-             $events[] = new Event(
+            $address = new Address(
+                latitude: (float) $line[2],
+                longitude: (float) $line[3]
+            );
+
+            $events[] = new Event(
                 name: $line[0],
                 location: $line[1],
-                address_latitude: (float) $line[2],
-                address_longitude: (float) $line[3]
+                address: $address
             );
         }
 

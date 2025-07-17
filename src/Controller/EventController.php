@@ -6,24 +6,19 @@ use App\Dto\Event;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Service\CsvReader;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class EventController
+class EventController extends AbstractController
 {
-    private CsvReader $reader;
-
     public function __construct(
-        CsvReader $reader
-    ) {
-        $this->reader = $reader;
-    }
+        private CsvReader $reader
+    ) {}
 
     #[Route('/events', name: 'event_list', methods: ['GET'])]
     public function list(): JsonResponse
     {
         $events = $this->reader->readEvents();
-        $response = array_map(fn(Event $e) => $e->toArray(), $events);
-
-        return new JsonResponse($response);
+        return $this->json($events);
     }
 
     #[Route('/events/{id}', name: 'event_show', requirements: ['id' => '\d+'], methods: ['GET'])]
@@ -33,9 +28,9 @@ class EventController
         $index = $id - 1;
 
         if (!isset($events[$index])) {
-            return new JsonResponse(['error' => 'Event not found'], 404);
+            return $this->json(['error' => 'Not found'], 404);
         }
 
-        return new JsonResponse($events[$index]->toArray());
+        return $this->json($events[$index]);
     }
 }
