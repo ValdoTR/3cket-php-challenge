@@ -71,6 +71,6 @@ composer lint:fix
 
 Each time you push to `main` or open a pull request, GitHub Actions will automatically:
 
--   Run unit tests
--   Run static analysis
--   Check code style
+- Run unit tests
+- Run static analysis
+- Check code style

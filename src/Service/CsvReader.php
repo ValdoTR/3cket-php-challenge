@@ -7,6 +7,8 @@ use App\Dto\Event;
 
 class CsvReader
 {
+    private const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB max
+
     public function __construct(
         private string $filePath,
     ) {
@@ -23,6 +25,10 @@ class CsvReader
             throw new \RuntimeException("CSV not found: {$this->filePath}");
         }
 
+        if (filesize($this->filePath) > self::MAX_FILE_SIZE) {
+            throw new \RuntimeException("CSV file is too large: {$this->filePath}");
+        }
+
         $file = fopen($this->filePath, 'r');
         if (false === $file) {
             throw new \RuntimeException("Failed to open CSV: {$this->filePath}");
@@ -31,7 +37,7 @@ class CsvReader
         while (($line = fgetcsv($file)) !== false) {
             /** @var list<string|null> $line */
             $line = array_map(
-                fn ($value): ?string => is_string($value) ? trim($value) : null,
+                fn ($value): ?string => is_string($value) ? mb_convert_encoding(trim($value), 'UTF-8', 'auto') : null,
                 $line
             );
 
