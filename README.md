@@ -66,3 +66,11 @@ Fix formatting issues:
 # php-cs-fixer fix --diff
 composer fix
 ```
+
+## 🤖 Continuous Integration
+
+Each time you push to `main` or open a pull request, GitHub Actions will automatically:
+
+-   Run unit tests
+-   Run static analysis
+-   Check code style

@@ -12,11 +12,17 @@ class CsvReader
     ) {
     }
 
-    private function toFloat(string $value): float
+    /**
+     * @param string|null $value
+     */
+    private function toFloat(?string $value): float
     {
         return is_numeric($value) ? (float) $value : 0.0;
     }
 
+    /**
+     * @return Event[]
+     */
     public function readEvents(): array
     {
         $events = [];
@@ -26,11 +32,18 @@ class CsvReader
         }
 
         $file = fopen($this->filePath, 'r');
+        if ($file === false) {
+            throw new \RuntimeException("Failed to open CSV: {$this->filePath}");
+        }
 
         while (($line = fgetcsv($file)) !== false) {
-            $line = array_map(fn ($value) => is_string($value) ? trim($value) : $value, $line); // remove extra spaces only for strings
+            /** @var list<string|null> $line */
+            $line = array_map(
+                fn ($value): string|null => is_string($value) ? trim($value) : null,
+                $line
+            );
 
-            if (count($line) < 4) {
+            if (count($line) < 4 || $line[0] === null || $line[1] === null) {
                 continue; // Skip rows with missing fields
             }
 
