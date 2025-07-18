@@ -31,7 +31,7 @@ class CsvReaderTest extends TestCase
         }
     }
 
-    public function testReadEventsReturnsCorrectData()
+    public function testReadEventsReturnsCorrectData(): void
     {
         $reader = new CsvReader($this->csvFile);
         $events = $reader->readEvents();
@@ -51,7 +51,7 @@ class CsvReaderTest extends TestCase
         $this->assertEquals(-9.1499468, $events[1]->address->longitude);
     }
 
-    public function testThrowsExceptionIfFileNotFound()
+    public function testThrowsExceptionIfFileNotFound(): void
     {
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('CSV not found');
@@ -60,7 +60,7 @@ class CsvReaderTest extends TestCase
         $reader->readEvents();
     }
 
-    public function testHandlesNonNumericAddress()
+    public function testHandlesNonNumericAddress(): void
     {
         $csvContent = <<<CSV
             Event1,Porto,lat,long
@@ -75,7 +75,7 @@ class CsvReaderTest extends TestCase
         $this->assertEquals(0.0, $events[0]->address->longitude);
     }
 
-    public function testIgnoresRowsWithMissingFields()
+    public function testIgnoresRowsWithMissingFields(): void
     {
         $csvContent = <<<CSV
             Event1,Porto,41.1
@@ -90,7 +90,7 @@ class CsvReaderTest extends TestCase
         $this->assertEquals('Event2', $events[0]->name);
     }
 
-    public function testIgnoresExtraColumns()
+    public function testIgnoresExtraColumns(): void
     {
         $csvContent = <<<CSV
             Event1,Porto,41.1,-8.6,Extra1,Extra2
