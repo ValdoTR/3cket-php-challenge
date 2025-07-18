@@ -18,9 +18,9 @@ php -S localhost:8000 -t public
 
 ## 🌐 API Endpoints
 
-`GET /events`: [Returns all events](https://localhost:8000/events)
+`GET /events`: [Returns all events](http://localhost:8000/events)
 
-`GET /events/1`: [Returns the event with a given ID](https://localhost:8000/events/1)
+`GET /events/1`: [Returns the event with a given ID](http://localhost:8000/events/1)
 
 ## 📁 Project Structure
 
