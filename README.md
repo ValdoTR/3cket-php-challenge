@@ -64,7 +64,7 @@ Fix formatting issues:
 
 ```shell
 # php-cs-fixer fix --diff
-composer fix
+composer lint:fix
 ```
 
 ## 🤖 Continuous Integration
