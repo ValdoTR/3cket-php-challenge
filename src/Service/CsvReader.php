@@ -50,6 +50,9 @@ class CsvReader
                 longitude: $this->toFloat($lng)
             );
 
+            $name = $this->sanitizeForCsvInjection($name);
+            $location = $this->sanitizeForCsvInjection($location);
+
             $events[] = new Event(
                 name: $name,
                 location: $location,
@@ -72,5 +75,15 @@ class CsvReader
         $lastModified = file_exists($this->filePath) ? filemtime($this->filePath) : 0;
 
         return 'csv_events_'.$lastModified;
+    }
+
+    private function sanitizeForCsvInjection(string $value): string
+    {
+        $dangerous = ['=', '+', '-'];
+        if (in_array(substr($value, 0, 1), $dangerous, true)) {
+            return "'".$value; // Escape formula injection
+        }
+
+        return $value;
     }
 }
