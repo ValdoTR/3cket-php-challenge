@@ -20,18 +20,18 @@ jobs:
             - name: Set up PHP
               uses: shivammathur/setup-php@v2
               with:
-                  php-version: "8.2"
+                  php-version: "8.3"
                   tools: composer
                   extensions: mbstring, intl
 
-            - name: 📦 Install dependencies
+            - name: Install dependencies
               run: composer install --prefer-dist --no-progress
 
-            - name: 🧪 Run tests
+            - name: Run tests
               run: composer test
 
-            - name: 🔍 Run static analysis
+            - name: Run static analysis
               run: composer analyze
 
-            - name: 🎨 Run code style check
+            - name: Run code style check
               run: composer lint
