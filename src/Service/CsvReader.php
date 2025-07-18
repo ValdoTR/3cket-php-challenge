@@ -35,18 +35,24 @@ class CsvReader
                 $line
             );
 
-            if (count($line) < 4 || null === $line[0] || null === $line[1]) {
+            if (count($line) < 4) {
                 continue; // Skip rows with missing fields
             }
 
+            [$name, $location, $lat, $lng] = $line;
+
+            if (!is_string($name) || !is_string($location)) {
+                continue;
+            }
+
             $address = new Address(
-                latitude: $this->toFloat($line[2]),
-                longitude: $this->toFloat($line[3])
+                latitude: $this->toFloat($lat),
+                longitude: $this->toFloat($lng)
             );
 
             $events[] = new Event(
-                name: $line[0],
-                location: $line[1],
+                name: $name,
+                location: $location,
                 address: $address
             );
         }
