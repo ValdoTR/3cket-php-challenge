@@ -1,10 +1,10 @@
 <?php
+
 namespace App\Tests\Service;
 
+use App\Dto\Event;
 use App\Service\CsvReader;
 use PHPUnit\Framework\TestCase;
-use App\Dto\Event;
-use App\Dto\Address;
 
 class CsvReaderTest extends TestCase
 {
@@ -13,7 +13,7 @@ class CsvReaderTest extends TestCase
     protected function setUp(): void
     {
         // We use a temporary CSV file for our tests
-        $this->csvFile = sys_get_temp_dir() . '/test_seeds.csv';
+        $this->csvFile = sys_get_temp_dir().'/test_seeds.csv';
 
         $csvContent = <<<CSV
             Event1,Porto,41.1621376,-8.6569731

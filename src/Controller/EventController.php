@@ -2,22 +2,23 @@
 
 namespace App\Controller;
 
-use App\Dto\Event;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Routing\Attribute\Route;
 use App\Service\CsvReader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Routing\Attribute\Route;
 
 class EventController extends AbstractController
 {
     public function __construct(
-        private CsvReader $reader
-    ) {}
+        private CsvReader $reader,
+    ) {
+    }
 
     #[Route('/events', name: 'event_list', methods: ['GET'])]
     public function list(): JsonResponse
     {
         $events = $this->reader->readEvents();
+
         return $this->json($events);
     }
 

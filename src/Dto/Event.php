@@ -8,5 +8,6 @@ class Event
         public readonly string $name,
         public readonly string $location,
         public readonly Address $address,
-    ) {}
+    ) {
+    }
 }
