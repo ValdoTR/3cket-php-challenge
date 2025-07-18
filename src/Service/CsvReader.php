@@ -12,11 +12,6 @@ class CsvReader
     ) {
     }
 
-    private function toFloat(?string $value): float
-    {
-        return is_numeric($value) ? (float) $value : 0.0;
-    }
-
     /**
      * @return Event[]
      */
@@ -59,5 +54,17 @@ class CsvReader
         fclose($file);
 
         return $events;
+    }
+
+    private function toFloat(?string $value): float
+    {
+        return is_numeric($value) ? (float) $value : 0.0;
+    }
+
+    public function getCacheKey(): string
+    {
+        $lastModified = file_exists($this->filePath) ? filemtime($this->filePath) : 0;
+
+        return 'csv_events_'.$lastModified;
     }
 }

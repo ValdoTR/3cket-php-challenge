@@ -2,7 +2,7 @@
 
 namespace App\Dto;
 
-class Address
+readonly class Address
 {
     public function __construct(
         public float $latitude,
