@@ -15,6 +15,8 @@
         "symfony/yaml": "7.3.*"
     },
     "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.84",
+        "phpstan/phpstan": "^2.1",
         "phpunit/phpunit": "^12.2",
         "symfony/browser-kit": "7.3.*",
         "symfony/css-selector": "7.3.*"
@@ -49,6 +51,10 @@
         "symfony/polyfill-php82": "*"
     },
     "scripts": {
+        "analyze": "phpstan analyse",
+        "lint": "php-cs-fixer fix --dry-run --diff",
+        "fix": "php-cs-fixer fix --diff",
+        "test": "php bin/phpunit",
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd"
